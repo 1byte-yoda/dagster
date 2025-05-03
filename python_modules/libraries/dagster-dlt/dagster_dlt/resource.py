@@ -113,7 +113,7 @@ class DagsterDltResource(ConfigurableResource):
             "finished_at",
             "dataset_name",
             "destination_name",
-            "destination_type",
+            "destination_type"
         }
 
         load_info_dict = self._cast_load_info_metadata(load_info.asdict())
@@ -124,6 +124,16 @@ class DagsterDltResource(ConfigurableResource):
         normalized_table_name = default_schema.naming.normalize_table_identifier(
             str(resource.table_name)
         )
+        base_metadata["schema_updates"] = [
+            load_package.schema_update
+            for load_package in load_info.load_packages
+        ]
+
+        base_metadata["schema_hash"] = [
+            load_package.schema_hash
+            for load_package in load_info.load_packages
+        ]
+
         # job metadata for specific target `normalized_table_name`
         base_metadata["jobs"] = [
             job

@@ -124,10 +124,6 @@ class DagsterDltResource(ConfigurableResource):
         normalized_table_name = default_schema.naming.normalize_table_identifier(
             str(resource.table_name)
         )
-        base_metadata["schema_updates"] = [
-            load_package.schema_update
-            for load_package in load_info.load_packages
-        ]
 
         base_metadata["schema_hash"] = [
             load_package.schema_hash
